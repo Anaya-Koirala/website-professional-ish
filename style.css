@@ -87,7 +87,7 @@ img {
 }
 
 .nav-item a:hover {
-    background: #2563eb;
+    background: #ff6b35; /* Orange background for nav hovers */
     color: #fff;
 }
 
@@ -132,8 +132,8 @@ a {
 }
 
 a:hover {
-    color: #1a1a1a;
-    border-bottom: 1px solid #1a1a1a;
+    color: #ff6b35; /* Orange color on hover */
+    border-bottom: 1px solid #ff6b35; /* Orange border on hover */
 }
 
 /* Content */
@@ -169,8 +169,8 @@ a:hover {
 }
 
 .intro-box a:hover {
-    color: #1a1a1a;
-    border-bottom: 1px solid #1a1a1a;
+    color: #ff6b35; /* Orange color for intro-box links on hover */
+    border-bottom: 1px solid #ff6b35;
 }
 
 .intro-box div[style*="color: purple"] {
@@ -216,5 +216,5 @@ a:hover {
 }
 
 .modal button.close-btn:hover {
-    background: #2563eb;
+    background: #ff6b35; /* Orange background for modal buttons on hover */
 }
