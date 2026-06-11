@@ -10,7 +10,7 @@
 
 ## Screenshots
 <div align="center">
-    <img src="https://webpage-util.pages.dev/screenshots/1.pngscreenshots/3.png" width="45%">
+    <img src="https://webpage-util.pages.dev/screenshots/1.png" width="45%">
     <img src="https://webpage-util.pages.dev/screenshots/4.png" width="45%">
     <img src="https://webpage-util.pages.dev/screenshots/5.png" width="45%">    
     <img src="https://webpage-util.pages.dev/screenshots/6.png" width="45%">
@@ -18,5 +18,5 @@
     <img src="https://webpage-util.pages.dev/screenshots/8.png" width="45%">
     <img src="https://webpage-util.pages.dev/screenshots/9.png" width="45%">    
     <img src="https://webpage-util.pages.dev/screenshots/10.png" width="45%"> <br> <br>
-    <img src="https://webpage-util.pages.dev/screenshots/1.png" width="45%" height="25%"> <img src=".github/screenshots/2.png" width="45%" height="25%">
+    <img src="https://webpage-util.pages.dev/screenshots/1.png" width="45%" height="25%"> <img src="https://webpage-util.pages.dev/screenshots/2.png" width="45%" height="25%">
 </div>
