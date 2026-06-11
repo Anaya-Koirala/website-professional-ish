@@ -1,4 +1,3 @@
-import html
 import re
 
 import nh3
@@ -14,7 +13,16 @@ _ON_ATTR_RE = re.compile(
     r"\s+on\w+\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^>\s]+)", re.IGNORECASE
 )
 
-# Attribute whitelist passed to nh3.clean
+ALLOWED_TAGS = set(nh3.ALLOWED_TAGS) | {
+    "video",
+    "audio",
+    "source",
+    "iframe",
+    "canvas",
+    "font",
+    "center",
+}
+
 ALLOWED_ATTRS = {
     "*": {"class", "id", "style"},
     "a": {"href", "title", "target", "rel"},
@@ -28,10 +36,29 @@ ALLOWED_ATTRS = {
         "sandbox",
         "style",
     },
-    "audio": {"src", "controls", "autoplay", "loop", "style"},
-    "video": {"src", "controls", "width", "height", "style"},
+    "audio": {
+        "src",
+        "controls",
+        "autoplay",
+        "loop",
+        "muted",
+        "style",
+    },
+    "video": {
+        "src",
+        "controls",
+        "width",
+        "height",
+        "autoplay",
+        "muted",
+        "loop",
+        "style",
+        "crossorigin",
+    },
     "source": {"src", "type"},
     "canvas": {"width", "height", "id", "style"},
+    "font": {"style"},
+    "center": {"style"},
 }
 
 
@@ -118,6 +145,7 @@ def sanitize(raw_html: str) -> str:
     try:
         cleaned = nh3.clean(
             placeholder_html,
+            tags=ALLOWED_TAGS,
             attributes=ALLOWED_ATTRS,
             strip_comments=True,
             link_rel=None,
@@ -186,5 +214,8 @@ def sanitize(raw_html: str) -> str:
         script_tag = f"<script{attrs}>{safe_body}</script>"
         placeholder = f"__NH3_SCRIPT_PLACEHOLDER_{i}__"
         cleaned = cleaned.replace(placeholder, script_tag)
-        cleaned = html.escape(cleaned, quote=True)
     return cleaned
+
+print(
+    sanitize("""""")
+)
