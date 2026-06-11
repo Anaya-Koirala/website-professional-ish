@@ -204,8 +204,7 @@ const WM = (() => {
     }
 
     // Return an HTML string that embeds a PDF from /static/docs/<filename>.pdf
-    function embedPDF(filename) {
-        const src = `/static/files/${filename}.pdf`;
+    function embedPDF(filename, src) {
         return `<object data="${src}" type="application/pdf" style="width:100%;height:100%;border:none;">
       <p style="padding:12px;">PDF not supported. <a href="${src}" download>Download ${filename}.pdf</a></p>
     </object>`;
