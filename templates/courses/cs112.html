@@ -1,0 +1,36 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% block title %}CS 111/112{% endblock %}
+{% block content %}
+
+    <h1>CS 111/112 — CS I &amp; II</h1>
+    <hr>
+    <p>
+        My fourth hour project for this class was an implementation of
+        <a href="https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe" target="_blank" rel="noopener noreferrer">
+            Ultimate Tic-Tac-Toe</a> in Flutter.
+    </p>
+
+    <h2>Rules</h2>
+    <ul>
+        <li>Played on a 3×3 grid of 3×3 tic-tac-toe boards.</li>
+        <li>The position of your mark determines which board the next player must play on.</li>
+        <li>If sent to a full or won board, you may play on any board.</li>
+        <li>Win three smaller boards in a row to win the game.</li>
+    </ul>
+
+    <h2>Play</h2>
+    <p>
+        <a href="https://cs.gettysburg.edu/~koiran01/cs112/UTT_Web/" target="_blank" rel="noopener noreferrer">Play in
+            the browser</a>
+        &nbsp;·&nbsp;
+        <a href="https://cs.gettysburg.edu/~koiran01/cs112/UTT_Apk/" target="_blank" rel="noopener noreferrer">Download
+            the APK</a>
+    </p>
+    <small style="color:#555;">
+        <em>Note: The mobile version has a bug where X/O are rendered as Chinese characters. The game is still playable
+            (and fun!). <br>
+            Honestly, the Chinese characters add a certain flair, and I'd love to know what they mean.
+        </em>
+    </small>
+
+{% endblock %}

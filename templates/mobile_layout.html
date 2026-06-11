@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imgs/wizard.jpg') }}"/>
+    <link rel="stylesheet" href="https://unpkg.com/98.css"/>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            font-family: 'W95FA', 'Pixelated MS Sans Serif', Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #008080;
+            min-height: 100vh;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .mobile-warning {
+            background: #ffffe0;
+            border-bottom: 2px solid #888;
+            padding: 6px 10px;
+            font-size: 11px;
+            text-align: center;
+            color: #333;
+        }
+
+        .mobile-topbar {
+            background: silver;
+            border-bottom: 2px solid #fff;
+            padding: 4px 8px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .mobile-topbar nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .mobile-topbar nav a {
+            font-size: 11px;
+            text-decoration: none;
+            color: #000;
+            padding: 2px 6px;
+            border: 2px outset silver;
+            background: silver;
+            white-space: nowrap;
+        }
+
+        .mobile-topbar nav a:active {
+            border-style: inset;
+        }
+
+        .mobile-content {
+            margin: 12px 8px;
+            background: #fff;
+            border: 2px outset silver;
+        }
+
+        .panel-titlebar {
+            background: #000080;
+            color: #fff;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-body {
+            padding: 10px 12px;
+        }
+
+        h1 {
+            font-size: 15px;
+            margin: 0 0 6px;
+        }
+
+        h2 {
+            font-size: 13px;
+            margin: 8px 0 4px;
+        }
+
+        h3 {
+            font-size: 13px;
+            margin: 6px 0 3px;
+            font-style: italic;
+        }
+
+        a {
+            color: #000080;
+        }
+
+        hr {
+            border: 1px inset silver;
+            margin: 6px 0;
+        }
+
+        code {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 0 3px;
+        }
+
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="mobile-warning">
+    ⚠Mobile Warning: Best experienced on a desktop screen.
+</div>
+
+<div class="mobile-topbar">
+    <nav>
+        <a href="/">Home</a>
+        <a href="/writings">Writings</a>
+        <a href="/messages">Messages</a>
+        <a href="/contact">Contact</a>
+        <a href="/static/files/Resume.pdf">Resume</a>
+    </nav>
+</div>
+
+<div class="mobile-content">
+    <div class="panel-titlebar">
+        <span>{% block title %}Anaya Koirala{% endblock %}</span>
+        {% block back_link %}{% endblock %}
+    </div>
+    <div class="panel-body">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

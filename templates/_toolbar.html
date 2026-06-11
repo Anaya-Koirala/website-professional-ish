@@ -1,0 +1,148 @@
+{#
+  Reusable HTML toolbar macro.
+  Usage: {% from "_toolbar.html" import toolbar %}
+         {{ toolbar("content-area") }}
+  Pass the id of the textarea it should target.
+#}
+
+{#
+  Reusable form macro for creating writings or messages.
+  Usage: {% from "_toolbar.html" import post_form %}
+         {{ post_form(
+             textarea_id="msg-content",
+             cancel_url=url_for('messages'),
+             errors=errors,
+         ) }}
+#}
+
+{% macro post_form(textarea_id='content',
+                  errors=[]) %}
+    <form method="POST">
+        <div class="field-row-stacked" style="margin-bottom:8px;">
+            <label for="username">Username (30 characters max)</label>
+            <input type="text" id="username" name="username" maxlength=30
+                   placeholder="e.g. catlover123" required style="width:240px;">
+        </div>
+
+        <div class="field-row-stacked">
+            <label for="{{ textarea_id }}">Message</label>
+            {{ toolbar(textarea_id) }}
+            <textarea id="{{ textarea_id }}" name="content" rows="12"
+                      style="width:100%;resize:vertical;margin-top:4px;" required></textarea>
+        </div>
+
+        <div style="margin-top:10px;">
+            <input type="submit" value="Post">
+            &nbsp;
+            <a href="{{ url_for('messages') }}">Cancel</a>
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro toolbar(target_id) %}
+    <div id="tb-{{ target_id }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:2px;
+         padding:2px;border:1px solid silver;border-bottom:none;background:silver;">
+
+        <!-- Text formatting -->
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<b>', '</b>')"
+                style="min-width:24px;font-weight:bold;">B
+        </button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<i>', '</i>')"
+                style="min-width:24px;font-style:italic;">I
+        </button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<u>', '</u>')"
+                style="min-width:24px;text-decoration:underline;">U
+        </button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<s>', '</s>')"
+                style="min-width:24px;text-decoration:line-through;">S
+        </button>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Headings -->
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<h1>', '</h1>')">Large Text</button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<h2>', '</h2>')">Less Large Text</button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<h6>', '</h6>')">Very Small Text</button>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Block elements -->
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<p>', '</p>')">¶ Paragraph</button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<blockquote>', '</blockquote>')">" Block Quotes</button>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Link -->
+        <button type="button" onclick="tbLink('{{ target_id }}')">&#128279; Insert Link</button>
+
+        <button type="button" onclick="tbImage('{{ target_id }}')">&#128247; Insert Image</button>
+        <!-- Image -->
+        <select id="img-size-{{ target_id }}" style="height:22px;font-size:11px;">
+            <option value="200">small</option>
+            <option value="400" selected>medium</option>
+            <option value="800">large</option>
+        </select>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Script -->
+        <button type="button" onclick="tbScript('{{ target_id }}')">&#9881; Script</button>
+
+    </div>
+
+    <script>
+        /* ── Core helper: insert text at cursor, restore focus ── */
+        function tbInsert(id, before, after, placeholder) {
+          var ta = document.getElementById(id);
+          var s  = ta.selectionStart, e = ta.selectionEnd;
+          var sel = ta.value.slice(s, e) || placeholder;
+          var inserted = before + sel + after;
+          ta.setRangeText(inserted, s, e, 'end');
+          /* Place cursor inside the tags if nothing was selected */
+          if (s === e && placeholder) {
+            var cur = s + before.length;
+            ta.setSelectionRange(cur, cur + placeholder.length);
+          }
+          ta.focus();
+        }
+
+        /* Wrap selection (or placeholder) in open/close tags */
+        function tbWrap(id, open, close) {
+          tbInsert(id, open, close, 'text here');
+        }
+
+        /* Prompt for URL and display text, insert <a> */
+        function tbLink(id) {
+          var url  = prompt('URL:', 'https://');
+          if (!url) return;
+          var text = prompt('Display text:', 'link text');
+          if (text === null) return;
+          tbInsert(id, '<a href="' + url + '" target="_blank" rel="noopener noreferrer">', '</a>', text || url);
+        }
+
+        /* Prompt for image URL, insert <img> at chosen size */
+        function tbImage(id) {
+          var url = prompt('Image URL:', 'https://');
+          if (!url) return;
+          var alt  = prompt('Alt text (optional):', '') || '';
+          var size = document.getElementById('img-size-' + id).value;
+          var tag  = '<img src="' + url + '" alt="' + alt + '" width="' + size + '" style="max-width:100%;height:auto;">';
+          var ta   = document.getElementById(id);
+          var pos  = ta.selectionEnd;
+          ta.setRangeText(tag, pos, pos, 'end');
+          ta.focus();
+        }
+
+        /* Insert a <script> stub with cursor placed inside */
+        function tbScript(id) {
+          var ta    = document.getElementById(id);
+          var pos   = ta.selectionEnd;
+          var stub  = '<script>\n// your code here\n<\/script>';
+          ta.setRangeText(stub, pos, pos, 'end');
+          /* move cursor to just after the opening tag */
+          var inner = pos + '<script>\n'.length;
+          ta.setSelectionRange(inner, inner + '// your code here'.length);
+          ta.focus();
+        }
+    </script>
+{% endmacro %}

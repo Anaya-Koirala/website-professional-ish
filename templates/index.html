@@ -1,0 +1,64 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% block title %}Anaya Koirala{% endblock %}
+
+{% block content %}
+    <h1>
+        <div style="color:purple; text-align: center; font-size: 18px" ;>Hello, and Welcome ...</div>
+    </h1>
+    <img src="{{ url_for('static', filename='imgs/wizard.jpg') }}"
+         style="display: block; margin-left: auto; margin-right: auto; max-width: 50%;" alt="Wizard Image"/>
+
+    <div class="intro-box" style="font-size: 15px">
+        <br/>
+        My name is Anaya Koirala, and I am currently pursuing Computer Science and Philosophy at
+        <a href="https://gettysburg.edu/" target="_blank" rel="noopener noreferrer">Gettysburg College.↗</a>
+        <br/><br/>
+        I aim to pursue research in computer science but still hope to engage in and incorporate more philosophy.
+        I love learning and exploring, and as a result, I have wide-ranging interests in
+        <b>Computational Maths, Algorithms, Systems Programming, Programming Languages, Functional Programming (mostly
+            OCaml and
+            small traces of Haskell), Free and Open Source Software, Artificial Intelligence,
+            UNIX-based Operating Systems, ...</b>
+        <br/><br/>
+        Honestly, as I explore and learn, my interests evolve. Some fade, and most return in new and interesting ways.
+        What is constant is my love of learning. However, I know that sounds
+        kinda boring so here are a few things we can chat about: Continental Philosophy, Zhuangzi, Ethics, Postmodern
+        Theory,
+        Cormac McCarthy, World History, Jazz, Classical and Hindustani Raga music, ...
+        <br/><br/>
+        Anyways, there's always more to learn, explore, and engage with. I don't consider the list above definitive,
+        so feel free to contact me to start a discussion, suggest a movie, or explain Monads to me.
+        <br/><br/>
+        <div style="color:purple">~Anaya</div>
+        <small style="text-align: left">
+            <a href="https://github.com/Anaya-Koirala/website-professional-ish/" target="_blank"
+               rel="noopener noreferrer">
+                [check out the code]
+            </a>
+            <br>
+            <br>
+            <u> Credits and Special Thanks</u>
+            <ul>
+                <li><a href="https://98.js.org/" target="_blank" rel="noopener noreferrer">98.js: </a> For inspiration
+                    and
+                    the code for the <a href="https://github.com/1j01/98/tree/master/programs/notepad/" target="_blank" rel="noopener noreferrer">Notepad</a> and
+                    <a href="https://github.com/1j01/98/tree/master/programs/explorer/"> Explorer </a> apps along with the
+                    <a href="https://github.com/1j01/98/tree/master/programs/minesweeper" target="_blank" rel="noopener noreferrer"> Minesweeper </a> and
+                    <a href="https://github.com/1j01/98/tree/master/programs/js-solitaire" target="_blank" rel="noopener noreferrer">Solitaire</a> (Freecell)
+                    games.
+                </li>
+                <li>
+                    <a href="https://github.com/1j01/jspaint" target="_blank" rel="noopener noreferrer">JSPaint:</a> For the code for the Paint app
+                </li>
+                <li>
+                    <a href="https://win98icons.alexmeub.com/" target="_blank" rel="noopener noreferrer">Windows 98 Icon Viewer</a>: For the icons used
+                </li>
+                <li>
+                    <a href="https://jdan.github.io/98.css/" target="_blank" rel="noopener noreferrer">98.css: </a> The awesome CSS library behind the classic
+                    look, along with providing the fonts and icons
+                </li>
+            </ul>
+            Further credits are located in each project's GitHub pages.
+        </small>
+    </div>
+{% endblock content %}

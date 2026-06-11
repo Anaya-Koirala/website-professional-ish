@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="/static/imgs/wizard.jpg" />
+    <title>{% block title %} {%  endblock %}</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+      html {
+          box-sizing: border-box;
+      }
+      *, *:before, *:after {
+          box-sizing: inherit;
+      }
+
+      body {
+          font-family: 'EB Garamond', serif;
+          font-size: 18px;
+          background: #fafafa;
+          color: #1a1a1a;
+          margin: 0;
+          padding: 0;
+          min-height: 100vh;
+      }
+
+      h1, h2, nav {
+          text-align: center;
+      }
+
+      h1, h2 {
+          font-family: 'EB Garamond', serif;
+          margin-top: 1.5em;
+          margin-bottom: 0.5em;
+      }
+
+      h1 {
+          font-weight: 700;
+          font-size: 2.5rem;
+          letter-spacing: 0.01em;
+      }
+
+      h2 {
+          font-style: italic;
+          font-weight: 400;
+          font-size: 1.3rem;
+          color: #555;
+      }
+
+      img {
+          border-radius: 10px;
+          margin: 1.5em 0 2em 0;
+          max-width: 100%;
+          height: auto;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      }
+
+      /* Navigation */
+      .top-nav {
+          background: #ffffff;
+          border-bottom: 1px solid #e0e0e0;
+          padding: 10px 0;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+      }
+
+      .nav-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+
+      .nav-item {
+          margin: 0 15px;
+          position: relative;
+      }
+
+      .nav-item a {
+          text-decoration: none;
+          color: #1a1a1a;
+          padding: 8px 12px;
+          border-radius: 5px;
+          transition: background 0.2s, color 0.2s;
+      }
+
+      .nav-item a:hover {
+          background: #ff6b35;
+          color: #fff;
+      }
+
+      .dropdown-menu {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: #ffffff;
+          border: 1px solid #e0e0e0;
+          border-radius: 5px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          z-index: 1000;
+          list-style: none;
+          padding: 5px 0;
+          margin-top: 5px;
+          min-width: 100%;
+      }
+
+      .dropdown:hover .dropdown-menu {
+          display: block;
+      }
+
+      .dropdown-menu li {
+          width: 100%;
+      }
+
+      .dropdown-menu a {
+          padding: 10px 15px;
+          white-space: nowrap;
+          display: block;
+          width: 100%;
+      }
+
+      /* Links */
+      a {
+          color: #2563eb;
+          text-decoration: none;
+          border-bottom: 1px dotted #bbb;
+          transition: color 0.2s, border-bottom 0.2s;
+          padding: 1px 0;
+      }
+
+      a:hover {
+          color: #ff6b35;
+          border-bottom: 1px solid #ff6b35;
+      }
+
+      /* Content */
+      .intro-box {
+          background: #ffffff;
+          border-radius: 8px;
+          padding: 28px 36px;
+          margin: 2em auto 2.5em auto;
+          max-width: 700px;
+          text-align: left;
+          font-family: 'EB Garamond', serif;
+          line-height: 1.7;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+          border: 1px solid #e0e0e0;
+      }
+
+      .intro-box b {
+          font-weight: 600;
+          color: #1a1a1a;
+      }
+
+      .intro-box small {
+          display: block;
+          margin-top: 1.5em;
+          color: #aaa;
+          text-align: right;
+      }
+
+      .intro-box a {
+          color: #2563eb;
+          border-bottom: 1px dotted #bbb;
+          padding: 0;
+      }
+
+      .intro-box a:hover {
+          color: #ff6b35;
+          border-bottom: 1px solid #ff6b35;
+      }
+
+      .intro-box div[style*="color: purple"] {
+          color: #2563eb !important;
+          font-weight: 600;
+      }
+
+      /* Writings list */
+      .legacy-list {
+          max-width: 700px;
+          margin: 4em auto;
+          text-align: left;
+      }
+
+      .legacy-list h3 {
+          margin: 0 0 2px;
+          font-size: 1.1rem;
+          font-style: italic;
+      }
+
+      .legacy-list h3 a {
+          color: #1a1a1a;
+          border-bottom: 1px dotted #bbb;
+      }
+
+      .legacy-list h3 a:hover { color: #ff6b35; }
+
+      .legacy-list small { color: #888; font-size: 0.85rem; }
+
+      .legacy-list hr { border: none; border-top: 1px solid #e0e0e0; margin: 10px 0; }
+
+      /* Message cards */
+      .legacy-message {
+          max-width: 700px;
+          margin: 1.2em auto;
+          text-align: left;
+          background: #fff;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          padding: 16px 20px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      }
+
+      .legacy-message .msg-meta {
+          font-size: 15px;
+          color: #888;
+          margin-bottom: 8px;
+      }
+
+      .legacy-message .msg-meta b { color: #1a1a1a; }
+
+      .legacy-post-btn {
+          display: inline-block;
+          margin: 1em auto 0;
+          background: #1a1a1a;
+          color: #fff;
+          padding: 8px 20px;
+          border-radius: 5px;
+          text-decoration: none;
+          border: none;
+          font-size: 1rem;
+          transition: background 0.2s;
+      }
+
+      .legacy-post-btn:hover { background: #ff6b35; color: #fff; border-bottom: none; }
+
+      /* Modals */
+      .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.18);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
+
+      .modal {
+          background: #ffffff;
+          padding: 24px 32px;
+          border-radius: 8px;
+          max-width: 350px;
+          width: 90%;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          text-align: center;
+          font-family: 'EB Garamond', serif;
+      }
+
+      .modal button.close-btn {
+          margin-top: 18px;
+          background: #1a1a1a;
+          color: #fff;
+          border: none;
+          padding: 8px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background 0.2s;
+      }
+
+      .modal button.close-btn:hover {
+          background: #ff6b35;
+      }
+
+      .legacy-warning {
+          background: #ffffe0;
+          border-bottom: 2px solid #888;
+          padding: 6px 10px;
+          font-size: 15px;
+          text-align: center;
+          color: #333;
+      }
+
+      main {
+          margin: 0 auto;
+          padding: 0 40px 40px 40px;
+          text-align: left;
+      }
+
+    </style>
+  </head>
+
+  <body>
+  <div class="legacy-warning">
+      ⚠Legacy Warning: View in the Retro98 Layout for best experience :)
+  </div>
+    <nav class="top-nav">
+      <ul class="nav-list">
+        <li class="nav-item dropdown">
+          <a href="{{ url_for('courses') }}">Courses</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ url_for('writings') }}">Writings</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('messages') }}">Message Board</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/Anaya-Koirala" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" data-modal="modal-email">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('static', filename='files/Resume.pdf') }}" target="_blank">Resume</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('legacy_exit') }}">Retro98 Layout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      {% block content %} {% endblock content %}
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modal-email">
+      <div class="modal">
+        <strong>Feel free to reach out through either address</strong>
+        <br /><br />
+        my_first_name@my_last_name.xyz<br />
+        koiran01@gettysburg.edu<br />
+        <br />
+        <button class="close-btn">Close</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-courses">
+      <div class="modal" style="max-width:600px;width:95%;text-align:left;">
+        <h3 style="text-align:center;margin-top:0;"><u>Courses Taken</u></h3>
+        <div style="text-align:center;">
+          <button class="close-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // General modal handler
+      document.querySelectorAll("[data-modal]").forEach(trigger => {
+        const modalId = trigger.dataset.modal;
+        const modal = document.getElementById(modalId);
+
+        trigger.addEventListener("click", e => {
+          e.preventDefault();
+          modal.style.display = "flex";
+        });
+
+        modal.querySelector(".close-btn").addEventListener("click", () => {
+          modal.style.display = "none";
+        });
+
+        modal.addEventListener("click", e => {
+          if (e.target === modal) modal.style.display = "none";
+        });
+      });
+
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          document
+            .querySelectorAll(".modal-overlay")
+            .forEach(m => (m.style.display = "none"));
+        }
+      });
+    </script>
+  </body>
+</html>

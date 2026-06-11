@@ -1,0 +1,47 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% block title %}Message Board{% endblock %}
+{% block content %}
+
+{% if legacy %}
+    <h1>Message Board</h1>
+    <a href="{{ url_for('create_messages') }}" class="legacy-post-btn">+ New Message <br> <small>... for the love of god, i can't figure out how to center this button</small></a>
+    <br>
+    {% for post in content %}
+        <div class="legacy-message">
+            <div class="msg-meta"><b>{{ post[1] }}</b> &mdash; {{ post[2] }}</div>
+            <div>{{ post[3] | safe }}</div>
+        </div>
+    {% else %}
+        <p>No messages yet. Be the first to post!</p>
+    {% endfor %}
+
+{% else %}
+    <style>
+        .board-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+        .board-header h1 { margin:0; }
+        .message-card { border:2px inset silver; background:#fff; margin-bottom:10px; }
+        .card-titlebar { background:#000080; color:#fff; padding:2px 6px; font-size:11px; display:flex; align-items:center; justify-content:space-between; }
+        .card-username { font-weight:bold; }
+        .card-time { opacity:0.8; font-size:10px; white-space:nowrap; }
+        .card-body { padding:8px 10px; font-size:13px; line-height:1.6; word-break:break-word; overflow-x:auto; }
+        .empty-state { border:2px inset silver; background:#f0f0f0; padding:20px; text-align:center; color:#666; font-style:italic; font-size:12px; }
+    </style>
+    <div class="board-header">
+        <h1>Message Board</h1>
+        <a href="{{ url_for('create_messages') }}" class="button" style="font-size:11px;padding:2px 8px;text-decoration:none;">+ New Message</a>
+    </div>
+    <hr>
+    {% for post in content %}
+        <div class="message-card">
+            <div class="card-titlebar">
+                <span class="card-username">{{ post[1] }}</span>
+                <span class="card-time">{{ post[2] }}</span>
+            </div>
+            <div class="card-body">{{ post[3] | safe }}</div>
+        </div>
+    {% else %}
+        <div class="empty-state">No messages yet. Be the first to post!</div>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}

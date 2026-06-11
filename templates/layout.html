@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://unpkg.com/98.css"/>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            font-family: 'W95FA', 'Pixelated MS Sans Serif', Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 10px 12px;
+            background: #fff;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 15px;
+            margin: 0 0 6px;
+        }
+
+        h2 {
+            font-size: 13px;
+            margin: 8px 0 4px;
+        }
+
+        h3 {
+            font-size: 13px;
+            margin: 6px 0 3px;
+            font-style: italic;
+        }
+
+        a {
+            color: #000080;
+        }
+
+        hr {
+            border: 1px inset silver;
+            margin: 6px 0;
+        }
+
+        code {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 0 3px;
+        }
+
+        /* Form elements inherit the pixel font */
+        input, textarea, select, button {
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+
+    </style>
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+</html>

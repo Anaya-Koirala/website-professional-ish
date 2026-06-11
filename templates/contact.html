@@ -1,0 +1,10 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+    <h1>Contact</h1>
+    <hr>
+    <p>Feel free to reach out through either address:</p>
+    <p>&#128231; my_first_name@my_last_name.xyz</p>
+    <p>&#128231; koiran01@gettysburg.edu</p>
+    <br>
+{% endblock %}

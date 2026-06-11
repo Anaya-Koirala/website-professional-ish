@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imgs/wizard.jpg') }}"/>
+    <link rel="stylesheet" href="https://unpkg.com/98.css"/>
+    <title>Anaya Koirala</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            font-family: 'W95FA', 'Pixelated MS Sans Serif', Arial, sans-serif;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #008080;
+        }
+
+        /* Desktop*/
+        #desktop {
+            position: fixed;
+            inset: 0 0 28px 0;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 6px;
+            padding: 12px 8px;
+            overflow: hidden;
+        }
+
+        .desk-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+            padding: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            user-select: none;
+            color: #fff;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .desk-icon:hover {
+            border: 1px dotted #fff;
+            background: rgba(0, 0, 128, 0.35);
+        }
+
+        .desk-icon:focus {
+            outline: 1px dotted #fff;
+            background: rgba(0, 0, 128, 0.35);
+        }
+
+        .desk-icon img {
+            width: 40px;
+            height: 40px;
+            image-rendering: pixelated;
+            margin-bottom: 3px;
+        }
+
+        .desk-icon span {
+            font-size: 12px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        /* Window layer */
+        #win-layer {
+            position: fixed;
+            inset: 0 0 28px 0;
+            pointer-events: none;
+        }
+
+        .w98-win {
+            position: absolute;
+            pointer-events: all;
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            min-height: 160px;
+        }
+
+        .w98-win .title-bar {
+            cursor: move;
+            flex-shrink: 0;
+        }
+
+        .w98-win .window-body {
+            flex: 1;
+            overflow: auto;
+            padding: 10px 12px;
+            background: #fff;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* inner content styles */
+        .w98-win .window-body h1 {
+            font-size: 15px;
+            margin: 0 0 6px;
+        }
+
+        .w98-win .window-body h2 {
+            font-size: 13px;
+            margin: 8px 0 4px;
+        }
+
+        .w98-win .window-body h3 {
+            font-size: 13px;
+            margin: 6px 0 3px;
+            font-style: italic;
+        }
+
+        .w98-win .window-body a {
+            color: #000080;
+        }
+
+        .w98-win .window-body hr {
+            border: 1px inset silver;
+            margin: 6px 0;
+        }
+
+        .w98-win .window-body input[type=text],
+        .w98-win .window-body input[type=password],
+        .w98-win .window-body textarea,
+        .w98-win .window-body select {
+            font-size: 12px;
+        }
+
+        .w98-win .window-body textarea {
+            width: 100%;
+            resize: vertical;
+        }
+
+        .w98-win .window-body .intro-box {
+            border: 1px inset silver;
+            padding: 10px;
+            background: #f0f0f0;
+            margin-top: 8px;
+        }
+
+        /*Taskbar*/
+        #taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: silver;
+            border-top: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 2px;
+            z-index: 9999;
+        }
+
+        #tb-wins {
+            display: flex;
+            gap: 2px;
+            flex: 1;
+            overflow: hidden;
+            align-items: center;
+        }
+
+        .tb-btn {
+            height: 22px;
+            max-width: 150px;
+            min-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 0 5px;
+        }
+
+        .tb-btn img {
+            width: 14px;
+            height: 14px;
+            image-rendering: pixelated;
+            flex-shrink: 0;
+        }
+
+        .tb-btn.focused {
+            border-style: inset;
+        }
+
+        #tb-clock {
+            flex-shrink: 0;
+            margin-left: auto;
+            border: 1px inset silver;
+            padding: 2px 8px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .win-loading {
+            padding: 16px;
+            color: #666;
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        #start-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: bold;
+            font-size: 11px;
+            height: 22px;
+            padding: 0 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        #start-btn img {
+            width: 16px;
+            height: 16px;
+            image-rendering: pixelated;
+        }
+
+        .tb-sep {
+            width: 0;
+            height: 20px;
+            border-left: 1px solid #888;
+            border-right: 1px solid #fff;
+            margin: 0 3px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+{# DESKTOP ICONS#}
+<div id="desktop">
+    <div class="desk-icon" tabindex="0" ondblclick="WM.open('home')">
+        <img src="{{ url_for('static', filename='icon/home.png') }}" alt="">
+        <span>Home</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.open('messages')">
+        <img src="{{ url_for('static', filename='icon/messages.png') }}" alt="">
+        <span>Message Board</span>
+    </div>
+
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.open('writings')">
+        <img src="{{ url_for('static', filename='icon/writings.png') }}" alt="">
+        <span>Writings</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.open('courses')">
+        <img src="{{ url_for('static', filename='icon/courses.png') }}" alt="">
+        <span>Courses</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.openExternal('https://github.com/Anaya-Koirala')">
+        <img src="{{ url_for('static', filename='icon/projects.png') }}" alt="">
+        <span>GitHub<small>↗</small></span>
+    </div>
+
+
+    <div class="desk-icon" tabindex="0"
+         ondblclick="WM.openURL('https://98.js.org/programs/explorer/index.html?address=https%3A%2F%2Fwww.google.com','Internet Explorer')">
+        <img src="{{ url_for('static', filename='icon/internet.png') }}" alt="">
+        <span>Internet Explorer</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.openURL('https://jspaint.app','js-paint')">
+        <img src="{{ url_for('static', filename='icon/paint.png') }}" alt="">
+        <span>Paint</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.openURL('https://98.js.org/programs/notepad/','98js-notepad')">
+        <img src="{{ url_for('static', filename='icon/notepad.png') }}" alt="">
+        <span>Notepad</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0"
+         ondblclick="WM.openURL('https://98.js.org/programs/minesweeper/','98js-minesweeper', 300, 390)">
+        <img src="{{ url_for('static', filename='icon/minesweeper.png') }}" alt="">
+        <span>Minesweeper</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0"
+         ondblclick="WM.openURL('https://98.js.org/programs/js-solitaire/','98js-solitaire')">
+        <img src="{{ url_for('static', filename='icon/freecell.png') }}" alt="">
+        <span>FreeCell</span>
+    </div>
+
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.dialog('resume', WM.embedPDF('Resume'), 800, 600)">
+        <img src="{{ url_for('static', filename='icon/resume.png') }}" alt="">
+        <span>Resume</span>
+    </div>
+
+    <div class="desk-icon" tabindex="0" ondblclick="WM.open('contact')">
+        <img src="{{ url_for('static', filename='icon/contact.png') }}" alt="">
+        <span>Contact</span>
+    </div>
+
+
+    <div class="desk-icon" style="position:fixed;top:8px;right:8px;z-index:9998;"
+         ondblclick="window.location='/legacy'">
+        <img src="{{ url_for('static', filename='icon/legacy.png') }}" alt="">
+        <span>View in Legacy Layout</span>
+    </div>
+
+</div>
+
+{#WINDOW LAYER#}
+<div id="win-layer"></div>
+
+{#Taskbar#}
+<div id="taskbar">
+    <button id="start-btn" class="button">
+        <img src="{{ url_for('static', filename='icon/start.png') }}" alt=""> Start
+    </button>
+    <div class="tb-sep"></div>
+    <div id="tb-wins"></div>
+    <div id="tb-clock"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/wm.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => WM.open("home"));
+</script>
+</body>
+</html>

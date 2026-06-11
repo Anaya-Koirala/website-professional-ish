@@ -1,0 +1,17 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% from "_toolbar.html" import post_form %}
+{% block title %}Post a Message{% endblock %}
+{% block content %}
+
+    <h1>Message Board <small style="font-weight:normal;font-style:italic;">(previously Shitposts)</small></h1>
+    <p>
+        You can directly enter HTML/CSS and even some JS code.
+        Feel free to be as creative as possible (and please don't install a crypto miner or virus)<br>
+        Scripts are allowed for things like games or embeds &mdash; but
+
+        Also, the running joke is there is no delete feature here, so be wise....
+    </p>
+
+    {{ post_form(textarea_id="msg-content", errors=errors) }}
+
+{% endblock %}

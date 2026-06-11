@@ -1,0 +1,64 @@
+{% from "_toolbar.html" import post_form %}
+{% if not authenticated %}
+
+    <h1>Admin Login</h1>
+    {% if error %}<p><b>{{ error }}</b></p>{% endif %}
+
+    <form method="POST">
+        <input type="hidden" name="action" value="login">
+        <label for="pw">Password</label><br>
+        <input type="password" id="pw" name="password" required autofocus>
+        <br><br>
+        <input type="submit" value="Sign in">
+    </form>
+
+{% else %}
+
+    <h1>Admin Panel</h1>
+    <a href="{{ url_for('manage_logout') }}">Sign out</a>
+    <hr>
+
+    <!--New Writing -->
+    <h2>New Writing</h2>
+
+    <form method="POST">
+        <input type="hidden" name="action" value="new_writing">
+        {{ post_form(textarea_id="wr-content",errors=errors) }}
+    </form>
+
+    <hr>
+
+    <!-- Messages-->
+    <h2>Messages ({{ messages | length }})</h2>
+
+    {% for post in messages %}
+        <p>
+            <b>{{ post[1] }}</b> &nbsp;<small>{{ post[2] }}</small><br>
+            <small><i>{{ post[3] | striptags | truncate(100) }}</i></small>
+        </p>
+        <form method="POST" action="{{ url_for('delete_post', table='messages', post_id=post[0]) }}"
+              onsubmit="return confirm('Delete message by {{ post[1] }}?')">
+            <input type="submit" value="Delete">
+        </form>
+        <hr>
+    {% else %}
+        <p>No messages.</p>
+    {% endfor %}
+
+    <!-- Writings -->
+    <h2>Writings ({{ writings | length }})</h2>
+
+    {% for post in writings %}
+        <p>
+            <b>{{ post[1] }}</b> &nbsp;<small>{{ post[2] }}</small>
+        </p>
+        <form method="POST" action="{{ url_for('delete_post', table='writings', post_id=post[0]) }}"
+              onsubmit="return confirm('Delete writing by {{ post[1] }}?')">
+            <input type="submit" value="Delete">
+        </form>
+        <hr>
+    {% else %}
+        <p>No writings.</p>
+    {% endfor %}
+
+{% endif %}

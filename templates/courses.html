@@ -1,0 +1,137 @@
+{% extends "legacy_layout.html" if legacy else ("mobile_layout.html" if mobile else "layout.html") %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+
+{% if legacy %}
+    <h1>Courses Taken</h1>
+    <hr>
+    <h2>Computer Science</h2>
+    <ul>
+        <li><a href="{{ url_for('course_page', name='cs112') }}">CS 111/112 — Fundamentals of Computer Science</a></li>
+        <li><a href="{{ url_for('course_page', name='cs201') }}">CS 201 — Mathematics of Computation</a></li>
+        <li style="color:#888;">CS 216 — Data Structures &amp; Algorithms</li>
+        <li style="color:#888;">CS 371 — Artificial Intelligence</li>
+    </ul>
+    <h2>Mathematics</h2>
+    <ul>
+        <li style="color:#888;">MATH 211 — Multivariable Calculus</li>
+        <li style="color:#888;">MATH 212 — Linear Algebra</li>
+    </ul>
+    <h2>Philosophy</h2>
+    <ul>
+        <li style="color:#888;">PHIL 101 — Intro to Philosophy</li>
+        <li style="color:#888;">PHIL 208 — Kant &amp; 19th Century European Philosophy</li>
+        <li style="color:#888;">PHIL 212 — Deconstruction, Interpretation and Argument</li>
+        <li style="color:#888;">PHIL 235 — Philosophy of Literature</li>
+        <li style="color:#888;">PHIL 338 — Philosophy of Law</li>
+        <li style="color:#888;">PHIL 366 — The Zhuangzi</li>
+    </ul>
+    <small style="color:#aaa;">Grey entries have no page yet.</small>
+
+{% else %}
+    <style>
+        .file-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px;
+            align-content: flex-start;
+        }
+        .course-folder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70px;
+            padding: 6px 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        .course-folder img {
+            width: 42px;
+            height: 42px;
+            image-rendering: pixelated;
+            margin-bottom: 4px;
+        }
+        .course-folder:hover, .course-folder:focus {
+            border: 1px dotted #000080;
+            background: rgba(0, 0, 128, 0.08);
+            outline: none;
+        }
+        .course-folder[data-page=""] { opacity: 0.55; cursor: default; }
+        .course-folder[data-page=""]:hover,
+        .course-folder[data-page=""]:focus { border-color: transparent; background: none; }
+        small { color: #555; }
+    </style>
+
+    <div class="file-grid" id="courses-grid">
+        <div class="course-folder" tabindex="0" data-name="CS 111/112" data-page="{{ url_for('course_page', name='cs112') }}">
+            <img src="{{ url_for('static', filename='icon/folder.png') }}" alt="">
+            <span>CS 111/112<br><small>Fundamentals of CS</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="CS 201" data-page="{{ url_for('course_page', name='cs201') }}">
+            <img src="{{ url_for('static', filename='icon/folder.png') }}" alt="">
+            <span>CS 201<br><small>Mathematics of Computation</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="CS 216" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>CS 216<br><small>Data Structures &amp; Algorithms</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="CS 371" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>CS 371<br><small>Artificial Intelligence</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="MATH 211" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>MATH 211<br><small>Multivariable Calc</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="MATH 212" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>MATH 212<br><small>Linear Algebra</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 101" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 101<br><small>Intro to Philosophy</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 208" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 208<br><small>Kant &amp; 19th Century</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 212" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 212<br><small>Deconstruction</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 235" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 235<br><small>Philosophy of Lit.</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 338" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 338<br><small>Philosophy of Law</small></span>
+        </div>
+        <div class="course-folder" tabindex="0" data-name="PHIL 366" data-page="">
+            <img src="{{ url_for('static', filename='icon/folder_empty.png') }}" alt="">
+            <span>PHIL 366<br><small>The Zhuangzi</small></span>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll(".course-folder[data-page]:not([data-page=''])").forEach(el => {
+            const open = () => {
+                const url = el.dataset.page;
+                if (window.parent && window.parent.WM) {
+                    window.parent.postMessage("open-url:" + url + ":" + url.split("/").pop(), "*");
+                } else {
+                    window.location.href = url;
+                }
+            };
+            el.addEventListener("dblclick", open);
+            el.addEventListener("keydown", e => { if (e.key === "Enter") open(); });
+        });
+    </script>
+{% endif %}
+
+{% endblock %}

@@ -1,3 +1,8 @@
-.idea/*
-*.iml
-
+.venv/
+.env
+.ruff_cache
+.python-version
+__pycache__
+uv.lock
+.idea/
+database.sqlite
