@@ -1,4 +1,4 @@
-##[KOIRALA.XYZ](https://koirala.xyz)
+## [KOIRALA.XYZ](https://koirala.xyz)
 
 ## Windows98 themed website now written in Flask.
 
