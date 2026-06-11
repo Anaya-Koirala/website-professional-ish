@@ -10,13 +10,13 @@
 
 ## Screenshots
 <div align="center">
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/3.png" width="45%">
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/4.png" width="45%">
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/5.png" width="45%">    
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/6.png" width="45%">
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/7.png" width="45%">    
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/8.png" width="45%">
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/9.png" width="45%">    
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/10.png" width="45%"> <br> <br>
-    <img src="https://anaya-koirala.github.io/webpage-util/screenshots/1.png" width="45%" height="25%"> <img src=".github/screenshots/2.png" width="45%" height="25%">
+    <img src="https://webpage-util.pages.dev/screenshots/1.pngscreenshots/3.png" width="45%">
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/4.png" width="45%">
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/5.png" width="45%">    
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/6.png" width="45%">
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/7.png" width="45%">    
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/8.png" width="45%">
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/9.png" width="45%">    
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/10.png" width="45%"> <br> <br>
+    <img src="https://webpage-util.pages.dev/webpage-util/screenshots/1.png" width="45%" height="25%"> <img src=".github/screenshots/2.png" width="45%" height="25%">
 </div>
