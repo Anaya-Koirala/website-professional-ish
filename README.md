@@ -10,7 +10,7 @@
 
 ## Screenshots
 <div align="center">
-    <img src="https://webpage-util.pages.dev/screenshots/1.png" width="45%">
+    <img src="https://webpage-util.pages.dev/screenshots/3.png" width="45%">
     <img src="https://webpage-util.pages.dev/screenshots/4.png" width="45%">
     <img src="https://webpage-util.pages.dev/screenshots/5.png" width="45%">    
     <img src="https://webpage-util.pages.dev/screenshots/6.png" width="45%">
