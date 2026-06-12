@@ -7,12 +7,12 @@ ALLOWED_TAGS = set(nh3.ALLOWED_TAGS) | {
     "iframe",
     "canvas",
     "font",
-    "center",
+    "center"
 }
 
 ALLOWED_ATTRS = {
     "*": {"class",  "style"},
-    "a": {"href", "title", "target", "rel"},
+    "a": {"href", "title", "target"},
     "img": {"src", "alt", "width", "height", "style"},
     "iframe": {
         "src",
@@ -21,6 +21,7 @@ ALLOWED_ATTRS = {
         "frameborder",
         "allowfullscreen",
         "sandbox",
+        "srcdoc"
         "style",
     },
     "audio": {
@@ -59,7 +60,6 @@ def sanitize(raw_html: str) -> str:
         tags=ALLOWED_TAGS,
         attributes=ALLOWED_ATTRS,
         strip_comments=True,
-        link_rel="noopener noreferrer",
         url_schemes={"http", "https"},
     )
     return cleaned
