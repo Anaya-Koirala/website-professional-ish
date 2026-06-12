@@ -14,7 +14,8 @@
 {% macro post_form(textarea_id='content', errors=[]) %}
     {% if errors %}
         <ul style="margin:0 0 8px;padding:6px 10px 6px 24px;border:1px solid red;background:#fff0f0;color:red;font-size:12px;">
-            {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+            {% for e in errors %}
+                <li>{{ e }}</li>{% endfor %}
         </ul>
     {% endif %}
 
@@ -47,13 +48,17 @@
 
         <!-- Text formatting -->
         <button type="button" onclick="tbWrap('{{ target_id }}', '<b>', '</b>')"
-                style="min-width:24px;font-weight:bold;">B</button>
+                style="min-width:24px;font-weight:bold;">B
+        </button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<i>', '</i>')"
-                style="min-width:24px;font-style:italic;">I</button>
+                style="min-width:24px;font-style:italic;">I
+        </button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<u>', '</u>')"
-                style="min-width:24px;text-decoration:underline;">U</button>
+                style="min-width:24px;text-decoration:underline;">U
+        </button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<s>', '</s>')"
-                style="min-width:24px;text-decoration:line-through;">S</button>
+                style="min-width:24px;text-decoration:line-through;">S
+        </button>
 
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
 
@@ -68,9 +73,9 @@
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
 
         <!-- Text alignment -->
-        <button type="button" onclick="tbAlign('{{ target_id }}', 'left')"   title="Align left">Left Text</button>
+        <button type="button" onclick="tbAlign('{{ target_id }}', 'left')" title="Align left">Left Text</button>
         <button type="button" onclick="tbAlign('{{ target_id }}', 'center')" title="Align centre">Center Text</button>
-        <button type="button" onclick="tbAlign('{{ target_id }}', 'right')"  title="Align right">Right Text</button>
+        <button type="button" onclick="tbAlign('{{ target_id }}', 'right')" title="Align right">Right Text</button>
 
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
 
@@ -83,7 +88,8 @@
 
         <!-- Block elements -->
         <button type="button" onclick="tbWrap('{{ target_id }}', '<p>', '</p>')">¶ Paragraph</button>
-        <button type="button" onclick="tbWrap('{{ target_id }}', '<blockquote>', '</blockquote>')">" Block Quote</button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<blockquote>', '</blockquote>')">" Block Quote
+        </button>
         <button type="button" onclick="tbNewLine('{{ target_id }}')">↵ New Line</button>
 
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
@@ -109,72 +115,72 @@
     <script>
         // Insert text at cursor position, restore focus
         function tbInsert(id, before, after, placeholder) {
-          var ta = document.getElementById(id);
-          var s  = ta.selectionStart, e = ta.selectionEnd;
-          var sel = ta.value.slice(s, e) || placeholder;
-          ta.setRangeText(before + sel + after, s, e, 'end');
-          if (s === e && placeholder) {
-            var cur = s + before.length;
-            ta.setSelectionRange(cur, cur + placeholder.length);
-          }
-          ta.focus();
+            var ta = document.getElementById(id);
+            var s = ta.selectionStart, e = ta.selectionEnd;
+            var sel = ta.value.slice(s, e) || placeholder;
+            ta.setRangeText(before + sel + after, s, e, 'end');
+            if (s === e && placeholder) {
+                var cur = s + before.length;
+                ta.setSelectionRange(cur, cur + placeholder.length);
+            }
+            ta.focus();
         }
 
         // Wrap selection in open/close tags
         function tbWrap(id, open, close) {
-          tbInsert(id, open, close, 'text here');
+            tbInsert(id, open, close, 'text here');
         }
 
         // Wrap selection in a <span> with the chosen colour
         function tbColor(id) {
-          var color = document.getElementById('color-picker-' + id).value;
-          tbInsert(id, '<span style="color:' + color + '">', '</span>', 'text here');
+            var color = document.getElementById('color-picker-' + id).value;
+            tbInsert(id, '<span style="color:' + color + '">', '</span>', 'text here');
         }
 
         // Wrap selection in a <div> with text-align
         function tbAlign(id, align) {
-          tbInsert(id, '<div style="text-align:' + align + '">', '</div>', 'text here');
+            tbInsert(id, '<div style="text-align:' + align + '">', '</div>', 'text here');
         }
 
         // Insert a <br> at cursor
         function tbNewLine(id) {
-          var ta  = document.getElementById(id);
-          var pos = ta.selectionEnd;
-          ta.setRangeText('<br>\n', pos, pos, 'end');
-          ta.focus();
+            var ta = document.getElementById(id);
+            var pos = ta.selectionEnd;
+            ta.setRangeText('<br>\n', pos, pos, 'end');
+            ta.focus();
         }
 
         // Prompt for URL and display text, insert <a>
         function tbLink(id) {
-          var url  = prompt('URL:', 'https://');
-          if (!url) return;
-          var text = prompt('Display text:', 'link text');
-          if (text === null) return;
-          tbInsert(id, '<a href="' + url + '" target="_blank" rel="noopener noreferrer">', '</a>', text || url);
+            var url = prompt('URL:', 'https://');
+            if (!url) return;
+            var text = prompt('Display text:', 'link text');
+            if (text === null) return;
+            tbInsert(id, '<a href="' + url + '" target="_blank" rel="noopener noreferrer">', '</a>', text || url);
         }
 
         // Prompt for image URL, insert <img> at chosen size
         function tbImage(id) {
-          var url = prompt('Image URL (use the direct image link, not the page URL):\nTip: right-click an image → "Copy image address"', 'https://');
-          if (!url) return;
-          var alt  = prompt('Alt text (optional):', '') || '';
-          var size = document.getElementById('img-size-' + id).value;
-          var tag  = '<img src="' + url + '" alt="' + alt + '" width="' + size + '" style="max-width:100%;height:auto;">';
-          var ta   = document.getElementById(id);
-          var pos  = ta.selectionEnd;
-          ta.setRangeText(tag, pos, pos, 'end');
-          ta.focus();
+            var url = prompt('Image URL (use the direct image link, not the page URL):\nTip: right-click an image → "Copy image address"', 'https://');
+            if (!url) return;
+            var alt = prompt('Alt text (optional):', '') || '';
+            var size = document.getElementById('img-size-' + id).value;
+            var tag = '<img src="' + url + '" alt="' + alt + '" width="' + size + '" style="max-width:100%;height:auto;">';
+            var ta = document.getElementById(id);
+            var pos = ta.selectionEnd;
+            ta.setRangeText(tag, pos, pos, 'end');
+            ta.focus();
         }
 
         // Insert a <script> stub with cursor placed inside
         function tbScript(id) {
-          var ta   = document.getElementById(id);
-          var pos  = ta.selectionEnd;
-          var stub = '<script>\n// your code here\n<\/script>';
-          ta.setRangeText(stub, pos, pos, 'end');
-          var inner = pos + '<script>\n'.length;
-          ta.setSelectionRange(inner, inner + '// your code here'.length);
-          ta.focus();
+            var ta = document.getElementById(id);
+            var pos = ta.selectionEnd;
+            var stub = '<script>\n// your code here\n<\/script>';
+            ta.setRangeText(stub, pos, pos, 'end');
+            var inner = pos + '<script>\n'.length;
+            ta.setSelectionRange(inner, inner + '// your code here'.length);
+            ta.focus();
         }
     </script>
 {% endmacro %}
