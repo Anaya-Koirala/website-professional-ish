@@ -1,7 +1,6 @@
 import datetime
 import sqlite3
 
-today: str = datetime.datetime.now().strftime("%d-%b-%y")
 tables: list[str] = ["messages", "writings"]
 
 
@@ -48,6 +47,7 @@ def get_post(table: str, post_id: int):
 def create_post(table: str, username: str, content: str) -> None:
     conn = create_conn()
     cursor = conn.cursor()
+    today: str = datetime.datetime.now().strftime("%d-%b-%y")
     cursor.execute(
         f"INSERT INTO {table} (username, date, content) VALUES (?, ?, ?)",
         (username, today, content),
