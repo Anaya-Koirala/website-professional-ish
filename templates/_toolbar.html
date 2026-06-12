@@ -8,15 +8,16 @@
 {#
   Reusable form macro for creating writings or messages.
   Usage: {% from "_toolbar.html" import post_form %}
-         {{ post_form(
-             textarea_id="msg-content",
-             cancel_url=url_for('messages'),
-             errors=errors,
-         ) }}
+         {{ post_form(textarea_id="msg-content", errors=errors) }}
 #}
 
-{% macro post_form(textarea_id='content',
-                  errors=[]) %}
+{% macro post_form(textarea_id='content', errors=[]) %}
+    {% if errors %}
+        <ul style="margin:0 0 8px;padding:6px 10px 6px 24px;border:1px solid red;background:#fff0f0;color:red;font-size:12px;">
+            {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+
     <form method="POST">
         <div class="field-row-stacked" style="margin-bottom:8px;">
             <label for="username">Username (30 characters max)</label>
@@ -39,23 +40,37 @@
     </form>
 {% endmacro %}
 
+
 {% macro toolbar(target_id) %}
     <div id="tb-{{ target_id }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:2px;
          padding:2px;border:1px solid silver;border-bottom:none;background:silver;">
 
         <!-- Text formatting -->
         <button type="button" onclick="tbWrap('{{ target_id }}', '<b>', '</b>')"
-                style="min-width:24px;font-weight:bold;">B
-        </button>
+                style="min-width:24px;font-weight:bold;">B</button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<i>', '</i>')"
-                style="min-width:24px;font-style:italic;">I
-        </button>
+                style="min-width:24px;font-style:italic;">I</button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<u>', '</u>')"
-                style="min-width:24px;text-decoration:underline;">U
-        </button>
+                style="min-width:24px;text-decoration:underline;">U</button>
         <button type="button" onclick="tbWrap('{{ target_id }}', '<s>', '</s>')"
-                style="min-width:24px;text-decoration:line-through;">S
-        </button>
+                style="min-width:24px;text-decoration:line-through;">S</button>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Text colour -->
+        <label style="font-size:11px;display:flex;align-items:center;gap:2px;cursor:pointer;">
+            <input type="color" id="color-picker-{{ target_id }}" value="#ff0000"
+                   style="width:22px;height:22px;padding:0;border:1px solid #888;cursor:pointer;"
+                   title="Pick text colour">
+        </label>
+        <button type="button" onclick="tbColor('{{ target_id }}')">Apply Colour</button>
+
+        <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
+
+        <!-- Text alignment -->
+        <button type="button" onclick="tbAlign('{{ target_id }}', 'left')"   title="Align left">Left Text</button>
+        <button type="button" onclick="tbAlign('{{ target_id }}', 'center')" title="Align centre">Center Text</button>
+        <button type="button" onclick="tbAlign('{{ target_id }}', 'right')"  title="Align right">Right Text</button>
 
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
 
@@ -68,16 +83,17 @@
 
         <!-- Block elements -->
         <button type="button" onclick="tbWrap('{{ target_id }}', '<p>', '</p>')">¶ Paragraph</button>
-        <button type="button" onclick="tbWrap('{{ target_id }}', '<blockquote>', '</blockquote>')">" Block Quotes</button>
+        <button type="button" onclick="tbWrap('{{ target_id }}', '<blockquote>', '</blockquote>')">" Block Quote</button>
+        <button type="button" onclick="tbNewLine('{{ target_id }}')">↵ New Line</button>
 
         <div style="width:1px;height:18px;background:#888;margin:0 3px;border-right:1px solid #fff;"></div>
 
         <!-- Link -->
         <button type="button" onclick="tbLink('{{ target_id }}')">&#128279; Insert Link</button>
 
-        <button type="button" onclick="tbImage('{{ target_id }}')">&#128247; Insert Image</button>
         <!-- Image -->
-        <select id="img-size-{{ target_id }}" style="height:22px;font-size:11px;">
+        <button type="button" onclick="tbImage('{{ target_id }}')">&#128247; Insert Image</button>
+        <select id="img-size-{{ target_id }}" style="height:22px;font-size:11px;" title="Image size">
             <option value="200">small</option>
             <option value="400" selected>medium</option>
             <option value="800">large</option>
@@ -91,14 +107,12 @@
     </div>
 
     <script>
-        /* ── Core helper: insert text at cursor, restore focus ── */
+        // Insert text at cursor position, restore focus
         function tbInsert(id, before, after, placeholder) {
           var ta = document.getElementById(id);
           var s  = ta.selectionStart, e = ta.selectionEnd;
           var sel = ta.value.slice(s, e) || placeholder;
-          var inserted = before + sel + after;
-          ta.setRangeText(inserted, s, e, 'end');
-          /* Place cursor inside the tags if nothing was selected */
+          ta.setRangeText(before + sel + after, s, e, 'end');
           if (s === e && placeholder) {
             var cur = s + before.length;
             ta.setSelectionRange(cur, cur + placeholder.length);
@@ -106,12 +120,31 @@
           ta.focus();
         }
 
-        /* Wrap selection (or placeholder) in open/close tags */
+        // Wrap selection in open/close tags
         function tbWrap(id, open, close) {
           tbInsert(id, open, close, 'text here');
         }
 
-        /* Prompt for URL and display text, insert <a> */
+        // Wrap selection in a <span> with the chosen colour
+        function tbColor(id) {
+          var color = document.getElementById('color-picker-' + id).value;
+          tbInsert(id, '<span style="color:' + color + '">', '</span>', 'text here');
+        }
+
+        // Wrap selection in a <div> with text-align
+        function tbAlign(id, align) {
+          tbInsert(id, '<div style="text-align:' + align + '">', '</div>', 'text here');
+        }
+
+        // Insert a <br> at cursor
+        function tbNewLine(id) {
+          var ta  = document.getElementById(id);
+          var pos = ta.selectionEnd;
+          ta.setRangeText('<br>\n', pos, pos, 'end');
+          ta.focus();
+        }
+
+        // Prompt for URL and display text, insert <a>
         function tbLink(id) {
           var url  = prompt('URL:', 'https://');
           if (!url) return;
@@ -120,9 +153,9 @@
           tbInsert(id, '<a href="' + url + '" target="_blank" rel="noopener noreferrer">', '</a>', text || url);
         }
 
-        /* Prompt for image URL, insert <img> at chosen size */
+        // Prompt for image URL, insert <img> at chosen size
         function tbImage(id) {
-          var url = prompt('Image URL:', 'https://');
+          var url = prompt('Image URL (use the direct image link, not the page URL):\nTip: right-click an image → "Copy image address"', 'https://');
           if (!url) return;
           var alt  = prompt('Alt text (optional):', '') || '';
           var size = document.getElementById('img-size-' + id).value;
@@ -133,13 +166,12 @@
           ta.focus();
         }
 
-        /* Insert a <script> stub with cursor placed inside */
+        // Insert a <script> stub with cursor placed inside
         function tbScript(id) {
-          var ta    = document.getElementById(id);
-          var pos   = ta.selectionEnd;
-          var stub  = '<script>\n// your code here\n<\/script>';
+          var ta   = document.getElementById(id);
+          var pos  = ta.selectionEnd;
+          var stub = '<script>\n// your code here\n<\/script>';
           ta.setRangeText(stub, pos, pos, 'end');
-          /* move cursor to just after the opening tag */
           var inner = pos + '<script>\n'.length;
           ta.setSelectionRange(inner, inner + '// your code here'.length);
           ta.focus();
